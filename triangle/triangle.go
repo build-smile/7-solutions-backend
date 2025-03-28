@@ -31,7 +31,9 @@ func maxPathSum(triangle [][]int) int {
 	for row := len(triangle) - 2; row >= 0; row-- {
 		rows := len(triangle[row])
 		for col := 0; col < rows; col++ {
-			triangle[row][col] += max(triangle[row+1][col], triangle[row+1][col+1])
+			nextCol := col + 1
+			nextRow := row + 1
+			triangle[row][col] += max(triangle[nextRow][col], triangle[nextRow][nextCol])
 		}
 	}
 	return triangle[0][0]

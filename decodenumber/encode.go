@@ -2,48 +2,46 @@ package decodenumber
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 )
 
-func Execute(encode string) {
-	fmt.Println(decodeMinSum(encode))
+func Execute(encoded string) {
+	result := decodeToInt(encoded)
+	setValPosVal(result)
+	strResult := arrToStr(result)
+	fmt.Println(strResult)
 }
 
-func decodeMinSum(encoded string) string {
-	n := len(encoded) + 1
-	result := make([]int, n)
-
-	// ตั้งค่าตัวแรกเป็นค่าต่ำสุดที่เป็นไปได้
-	result[0] = 0
-
-	// คำนวณค่าที่น้อยที่สุดที่ตรงกับเงื่อนไขของแต่ละคู่
-	for i := 0; i < len(encoded); i++ {
-		if encoded[i] == 'L' {
-			result[i+1] = result[i] - 1
-		} else if encoded[i] == 'R' {
-			result[i+1] = result[i] + 1
-		} else { // '=' case
-			result[i+1] = result[i]
-		}
-	}
-
-	// Shift ค่าให้เป็นบวกทั้งหมด (ทำให้เลขน้อยที่สุดเป็น 0)
-	minVal := 0
-	for _, v := range result {
-		if v < minVal {
-			minVal = v
-		}
-	}
+func setValPosVal(result []int) {
+	minVal := slices.Min(result)
 	shift := -minVal
 	for i := range result {
 		result[i] += shift
 	}
+}
 
-	// แปลงผลลัพธ์เป็น string
+func decodeToInt(encoded string) []int {
+	n := len(encoded) + 1
+	result := make([]int, n)
+	result[0] = 0
+	for i := 0; i < len(encoded); i++ {
+		nextInd := i + 1
+		if encoded[i] == 'L' { // ซ้ายมากกว่าขวา
+			result[nextInd] = result[i] - 1 // -1 เพื่อให้ขวาน้อยกว่าซ้าย
+		} else if encoded[i] == 'R' { //ขวามากกว่าซ้าย
+			result[nextInd] = result[i] + 1 // +1 เพื่อให้ขวามากกว่าซ้าย
+		} else { // '=' case
+			result[nextInd] = result[i]
+		}
+	}
+	return result
+}
+
+func arrToStr(result []int) string {
 	strResult := ""
 	for _, v := range result {
 		strResult += strconv.Itoa(v)
 	}
-
 	return strResult
 }

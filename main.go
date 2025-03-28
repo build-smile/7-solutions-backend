@@ -6,10 +6,10 @@ import (
 )
 
 func main() {
-	//1 Maximum Path Sum in a Triangle
+	//1. Maximum Path Sum in a Triangle
 	triangle.Execute()
 
-	//2 decode
+	//2. decode
 	decodenumber.Execute("LLRR=")
 
 }
