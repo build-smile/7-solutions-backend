@@ -6,18 +6,25 @@ import (
 	"strconv"
 )
 
-func Execute(encoded string) {
+func Execute(encoded string) string {
 	result := decodeToInt(encoded)
-	setValPosVal(result)
+	setValPosVal(result, encoded)
 	strResult := arrToStr(result)
 	fmt.Println(strResult)
+	return strResult
 }
 
-func setValPosVal(result []int) {
+func setValPosVal(result []int, encode string) {
 	minVal := slices.Min(result)
 	shift := -minVal
 	for i := range result {
-		result[i] += shift
+		//if i > 1 && i < len(result)-1 && encode[i-1] == '=' {
+		//	continue
+		//}
+		if i > 0 && i < len(result)-1 && encode[i-1] == '=' && result[i] == 0 {
+			result[i] += shift
+		}
+
 	}
 }
 

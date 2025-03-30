@@ -10,6 +10,8 @@ func main() {
 	triangle.Execute()
 
 	//2. decode
-	decodenumber.Execute("LLRR=")
+	decodenumber.Execute("==RLL")
+
+	//3.
 
 }
